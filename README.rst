@@ -8,12 +8,12 @@ for use in live servers.
 Requirements
 ============
 
-* `yappi<http://code.google.com/p/yappi/>`_ for thread-aware live server profiling
+* `yappi <http://code.google.com/p/yappi/>`_ for thread-aware live server profiling
   that can be enabled and disabled at run time;
 * `Pympler <http://code.google.com/p/pympler/>`_ for memory debugging;
-* `psutil<http://code.google.com/p/psutil/>`_ for system resource usage investigation.
+* `psutil <http://code.google.com/p/psutil/>`_ for system resource usage investigation.
 
-Dashboard remplates are based on `Bootstrap<http://twitter.github.com/bootstrap/>`_ toolkit.
+Dashboard remplates are based on `Bootstrap <http://twitter.github.com/bootstrap/>`_ toolkit.
 
 django-profiling-dashboard requires django >= 1.3 and python >= 2.6.
 
