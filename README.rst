@@ -11,7 +11,8 @@ Requirements
 * `yappi <http://code.google.com/p/yappi/>`_ for thread-aware live server profiling
   that can be enabled and disabled at run time;
 * `Pympler <http://code.google.com/p/pympler/>`_ for memory debugging;
-* `psutil <http://code.google.com/p/psutil/>`_ for system resource usage investigation.
+* `psutil <http://code.google.com/p/psutil/>`_ for system resource usage investigation;
+* `django-query-exchange <https://github.com/daevaorn/django-query-exchange>`_.
 
 Dashboard remplates are based on `Bootstrap <http://twitter.github.com/bootstrap/>`_ toolkit.
 
@@ -23,6 +24,7 @@ Installation
 Make sure the requirements are installed::
 
     pip install yappi pympler psutil
+    pip install git+https://github.com/daevaorn/django-query-exchange.git#egg=django-query-exchange
 
 and install django-profiling-dashboard using pip::
 
@@ -31,7 +33,15 @@ and install django-profiling-dashboard using pip::
 Usage
 =====
 
-1. Add ``'profiling_dashboard'`` to ``INSTALLED_APPS``;
+1. Add ``'profiling_dashboard'`` and ``'query_exchange'`` to ``INSTALLED_APPS``::
+
+       INSTALLED_APPS = (
+           # ...
+           'query_exchange',
+           'profiling_dashboard',
+           # ...
+       )
+
 2. include 'profiling_dashboard.urls' in your urls.py::
 
       urlpatterns = patterns('',
