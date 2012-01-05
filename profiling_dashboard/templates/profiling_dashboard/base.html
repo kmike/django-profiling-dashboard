@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <style>
+        body{
+            padding-top: 40px;
+        }
+    </style>
+    <title>{% block title %}Django Profiling Dashboard{% endblock %}</title>
+    {% block extrahead %}{% endblock %}
+</head>
+<body>
+
+    <section id="navigation">
+        <div class="topbar-wrapper" style="z-index: 5;">
+            <div class="topbar">
+                <div class="topbar-inner">
+                    <div class="container">
+                        <h3><a href="#">Django Profiling Dashboard {% if pid %}(pid: {{ pid }}{% if tid %}, tid: {{ tid }}{% endif %}){% endif %}</a></h3>
+                        <ul class="nav">
+                            {% block nav-cpu %}<li><a href="{% url profiling_yappi_stats %}">CPU profiler</a></li>{% endblock %}
+                            {% block nav-memory %}<li><a href="{% url profiling_memory_usage %}">Python memory profiler</a></li>{% endblock %}
+                            {% block nav-top %}<li><a href="{% url profiling_web_top %}">top</a></li>{% endblock %}
+                        </ul>
+                    </div>
+                </div><!-- /topbar-inner -->
+            </div><!-- /topbar -->
+        </div><!-- /topbar-wrapper -->
+    </section>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-message {{ message.tags }}">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <section>
+        {% block content %}{% endblock %}
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-right">
+                Built with <a href="http://code.google.com/p/yappi/">yappi</a>,
+                <a href="http://code.google.com/p/pympler/">Pympler</a>,
+                <a href="http://code.google.com/p/psutil/">psutil</a> and
+                <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> by Mikhail Korobov.
+                Licensed under the MIT License.
+
+                Source code: <a href="https://github.com/kmike/django-profiling-dashboard">github</a>, <a href="https://bitbucket.org/kmike/django-profiling-dashboard">bitbucket</a>.
+                Bug tracker is at <a href="https://github.com/kmike/django-profiling-dashboard/issues">github</a>.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

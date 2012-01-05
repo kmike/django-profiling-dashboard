@@ -1,0 +1,103 @@
+{% extends "profiling_dashboard/web_top.html" %}
+{% load query_exchange_tags %}
+
+{% block content %}
+    <div class="container">
+        <h2>{{ proc.NAME }} (pid: {{ proc.PID }})</h2>
+
+        <h3>General Info</h3>
+        <dl>
+            <dt>CMDLINE</dt>
+            <dd>{{ proc.CMDLINE }}</dd>
+
+            <dt>USERNAME</dt>
+            <dd>{{ proc.USERNAME }}</dd>
+
+            <dt>MEMORY: VMS / RSS / %MEM</dt>
+            <dd>{{ proc.VMS|filesizeformat }} / {{ proc.RSS|filesizeformat }} / {{ proc.MEMPERCENT }}</dd>
+
+            <dt>CPU: USER / SYSTEM / %CPU</dt>
+            <dd>{{ proc.CPU_USER }} / {{ proc.CPU_SYSTEM }} / {{ proc.CPUPERCENT }}</dd>
+
+            <dt>CREATE TIME (now is {{ proc.NOW }})</dt>
+            <dd>{{ proc.CREATE_TIME }}</dd>
+
+            {% if proc.IO_COUNTERS %}
+                <dt>IO: read / write (size)</dt>
+                <dd>{{ proc.IO_COUNTERS.read_bytes|filesizeformat }} / {{ proc.IO_COUNTERS.write_bytes|filesizeformat }}</dd>
+
+                <dt>IO: read / write (count)</dt>
+                <dd>{{ proc.IO_COUNTERS.read_count }} / {{ proc.IO_COUNTERS.write_count }}</dd>
+            {% endif %}
+        </dl>
+
+        {% if proc.THREADS %}
+            <h3>Threads</h3>
+            <table class="condensed-table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>user time</th>
+                        <th>system time</th>
+                    </tr>
+                </thead>
+                {% for thread in proc.THREADS %}
+                    <tr>
+                        <td>{{ thread.id }}</td>
+                        <td>{{ thread.user_time }}</td>
+                        <td>{{ thread.system_time }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        {% if proc.CONNECTIONS %}
+            <h3>Connections</h3>
+
+            <table class="condensed-table">
+                <thead>
+                    <tr>
+                        <th>fd</th>
+                        <th>family</th>
+                        <th>type</th>
+                        <th>local address</th>
+                        <th>remote address</th>
+                        <th>status</th>
+                    </tr>
+                </thead>
+                {% for conn in proc.CONNECTIONS %}
+                    <tr>
+                        <td>{{ conn.fd }}</td>
+                        <td>{{ conn.family }}</td>
+                        <td>{{ conn.type }}</td>
+
+                        <td>{{ conn.local_address.0 }}:{{ conn.local_address.1 }}</td>
+                        <td>{{ conn.remote_address.0 }}:{{ conn.remote_address.1 }}</td>
+                        <td>{{ conn.status }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        {% if proc.OPEN_FILES %}
+            <h3>Open Files</h3>
+
+            <table class="condensed-table">
+                <thead>
+                    <tr>
+                        <th>fd</th>
+                        <th>path</th>
+                    </tr>
+                </thead>
+                {% for file in proc.OPEN_FILES %}
+                    <tr>
+                        <td>{{ file.fd }}</td>
+                        <td>{{ file.path }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        {% endif %}
+
+    </div>
+{% endblock %}

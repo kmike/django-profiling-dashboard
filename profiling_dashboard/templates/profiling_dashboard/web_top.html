@@ -1,0 +1,75 @@
+{% extends "profiling_dashboard/base.html" %}
+{% load query_exchange_tags %}
+
+{% block nav-top %}
+    <li class="active"><a href="{% url profiling_web_top %}">top</a></li>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <form action="{% url profiling_web_top %}" method="GET">
+        {{ form.sort_by }}
+
+        <div class="clearfix">
+            <div class="input">
+                <label>
+                    No incomplete info
+                    {{ form.only_ready }}
+                    {{ form.only_ready.errors }}
+                </label>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            {{ form.limit.label_tag }}
+            <div class="input">
+                {{ form.limit }}
+                {{ form.limit.errors }}
+                <input type="submit" value="Show" class="btn primary">
+            </div>
+        </div>
+    </form>
+
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+
+    {% if size %}<h4>Total size: {{ size|filesizeformat }}</h4>{% endif %}
+
+    {% if processes %}
+    <table>
+        <thead>
+            <tr>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='PID' %}">PID</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='USERNAME' %}">USER</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='VMS' %}">VIRT</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='RSS' %}">RES</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='CPUPERCENT' %}">%CPU</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='MEMPERCENT' %}">%MEM</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='CPU_USER' %}">CPU user</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='CPU_SYSTEM' %}">CPU system</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='NAME' %}">NAME</a></th>
+                <th><a href="{% url_with_query 'profiling_web_top' keep 'limit','only_ready' add sort_by='CMDLINE' %}">COMMAND</a></th>
+            </tr>
+        </thead>
+        {% for proc in processes %}
+            <tr style="white-space: nowrap">
+                <td>
+                    <a href="{% url profiling_process_info proc.PID %}">
+                    {% if proc.PID|lower == pid|lower %}<strong>&rarr; {{ proc.PID }}</strong>{% else %}{{ proc.PID }}{% endif %}
+                    </a>
+                </td>
+                <td>{{ proc.USERNAME }}</td>
+                <td>{{ proc.VMS|filesizeformat }}</td>
+                <td>{{ proc.RSS|filesizeformat }}</td>
+                <td>{{ proc.CPUPERCENT }}</td>
+                <td>{{ proc.MEMPERCENT }}</td>
+                <td>{{ proc.CPU_USER }}</td>
+                <td>{{ proc.CPU_SYSTEM }}</td>
+                <td>{{ proc.NAME }}</td>
+                <td>{{ proc.CMDLINE }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "profiling_dashboard/base.html" %}
+{% load query_exchange_tags %}
+
+{% block nav-memory %}
+    <li class="active"><a href="{% url profiling_memory_usage %}">Python memory profiler</a></li>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <form action="{% url profiling_memory_usage %}" method="GET">
+        {{ form.sort_by }}
+
+        <div class="clearfix">
+            {{ form.limit.label_tag }}
+            <div class="input">
+                {{ form.limit }}
+                {{ form.limit.errors }}
+                <input type="submit" value="Show" class="btn primary">
+            </div>
+        </div>
+    </form>
+
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+
+    {% if size %}<h4>Total size: {{ size|filesizeformat }}</h4>{% endif %}
+
+    {% if report %}
+    <table class="condensed-table">
+        <thead>
+            <tr>
+                <th>type</th>
+                <th><a href="{% url_with_query 'profiling_memory_usage' keep 'limit' add sort_by='1' %}">number</a></th>
+                <th><a href="{% url_with_query 'profiling_memory_usage' keep 'limit' add sort_by='2' %}">size</a></th>
+            </tr>
+        </thead>
+        {% for row in report %}
+            <tr>
+                <td>{{ row.0 }}</td>
+                <td>{{ row.1 }}</td>
+                <td>{{ row.2|filesizeformat }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}

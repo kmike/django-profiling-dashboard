@@ -1,0 +1,62 @@
+{% extends "profiling_dashboard/base.html" %}
+{% load query_exchange_tags %}
+
+{% block nav-cpu %}
+    <li class="active"><a href="{% url profiling_yappi_stats %}">CPU profiler</a></li>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url profiling_yappi_manage %}" method="POST">{% csrf_token %}
+        <div class="clearfix">
+            <div class="input">
+                <h4>{% if status %}Status: {{ status }}{% endif %}</h4>
+                <input type="submit" name="action" value="start" class="btn">
+                <input type="submit" name="action" value="start_with_builtins" class="btn">
+                <input type="submit" name="action" value="stop" class="btn">
+                <input type="submit" name="action" value="reset" class="btn">
+            </div>
+        </div>
+    </form>
+
+    <form action="{% url profiling_yappi_stats %}" method="GET">
+        {{ form.sort_type }}
+        {{ form.sort_order }}
+        <div class="clearfix">
+            {{ form.limit.label_tag }}
+            <div class="input">
+                {{ form.limit }}
+                {{ form.limit.errors }}
+                <input type="submit" value="Show" class="btn primary">
+            </div>
+        </div>
+    </form>
+
+    {% if other_stats %}
+    <pre>{% for stat in other_stats %}
+{{ stat }}{% endfor %}</pre>
+    {% endif %}
+
+    {% if stats %}
+    <table class="condensed-table zebra-striped">
+        <thead>
+            <tr>
+                <th title="Name of the function being profiled"><a href="{% url_with_query 'profiling_yappi_stats' keep 'limit','sort_order' add sort_type='0' %}">name</a></th>
+                <th title="Total call count"><a href="{% url_with_query 'profiling_yappi_stats' keep 'limit','sort_order' add sort_type='1' %}">ncall</a></th>
+                <th title="Total time spent in the function"><a href="{% url_with_query 'profiling_yappi_stats' keep 'limit','sort_order' add sort_type='2' %}">ttotal</a></th>
+                <th title="Total time spent in the function excluding sub-calls"><a href="{% url_with_query 'profiling_yappi_stats' keep 'limit','sort_order' add sort_type='3' %}">tsub</a></th>
+                <th title="Average total time"><a href="{% url_with_query 'profiling_yappi_stats' keep 'limit','sort_order' add sort_type='4' %}">tavg</a></th>
+            </tr>
+        </thead>
+        {% for stat in stats %}
+            <tr>
+                <td>{{ stat.name }}</td>
+                <td>{{ stat.ncall }}</td>
+                <td>{{ stat.ttotal }}</td>
+                <td>{{ stat.tsub }}</td>
+                <td>{{ stat.tavg }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+{% endblock %}
