@@ -25,7 +25,7 @@ setup(
     description = """ Django profiling dashboard for debugging CPU, memory and other resources usage in live servers """,
 
     long_description = open('README.rst').read(),
-    requires = ['django (>= 1.3)', 'yappi (>= 0.54)', 'psutil (>= 0.4.1)', 'pympler (>= 0.2.1)'],
+    requires = ['django (>= 1.3)', 'yappi (>= 0.54)', 'psutil (>= 0.4.1)', 'pympler (>= 0.2.1)', 'query_exchange'],
 
     classifiers=(
         'Development Status :: 3 - Alpha',
