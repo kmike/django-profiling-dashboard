@@ -19,8 +19,8 @@ setup(
         'profiling_dashboard': ['templates/profiling_dashboard/*.html',]
     },
 
-    url='http://bitbucket.org/kmike/django-profiling-dashboard/',
-    download_url = 'http://bitbucket.org/kmike/django-profiling-dashboard/get/tip.zip',
+    url='https://github.com/kmike/django-profiling-dashboard',
+    download_url = 'https://github.com/kmike/django-profiling-dashboard/zipball/master',
     license = 'MIT license',
     description = """ Django profiling dashboard for debugging CPU, memory and other resources usage in live servers """,
 
