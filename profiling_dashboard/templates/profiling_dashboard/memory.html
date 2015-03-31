@@ -2,12 +2,12 @@
 {% load query_exchange_tags %}
 
 {% block nav-memory %}
-    <li class="active"><a href="{% url profiling_memory_usage %}">Python memory profiler</a></li>
+    <li class="active"><a href="{% url 'profiling_memory_usage' %}">Python memory profiler</a></li>
 {% endblock %}
 
 {% block content %}
     <br>
-    <form action="{% url profiling_memory_usage %}" method="GET">
+    <form action="{% url 'profiling_memory_usage' %}" method="GET">
         {{ form.sort_by }}
 
         <div class="clearfix">

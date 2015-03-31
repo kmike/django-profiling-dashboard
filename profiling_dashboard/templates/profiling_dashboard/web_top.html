@@ -2,12 +2,12 @@
 {% load query_exchange_tags %}
 
 {% block nav-top %}
-    <li class="active"><a href="{% url profiling_web_top %}">top</a></li>
+    <li class="active"><a href="{% url 'profiling_web_top' %}">top</a></li>
 {% endblock %}
 
 {% block content %}
     <br>
-    <form action="{% url profiling_web_top %}" method="GET">
+    <form action="{% url 'profiling_web_top' %}" method="GET">
         {{ form.sort_by }}
 
         <div class="clearfix">
@@ -55,7 +55,7 @@
         {% for proc in processes %}
             <tr style="white-space: nowrap">
                 <td>
-                    <a href="{% url profiling_process_info proc.PID %}">
+                    <a href="{% url 'profiling_process_info' proc.PID %}">
                     {% if proc.PID|lower == pid|lower %}<strong>&rarr; {{ proc.PID }}</strong>{% else %}{{ proc.PID }}{% endif %}
                     </a>
                 </td>

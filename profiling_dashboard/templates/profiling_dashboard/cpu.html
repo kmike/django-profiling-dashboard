@@ -2,11 +2,11 @@
 {% load query_exchange_tags %}
 
 {% block nav-cpu %}
-    <li class="active"><a href="{% url profiling_yappi_stats %}">CPU profiler</a></li>
+    <li class="active"><a href="{% url 'profiling_yappi_stats' %}">CPU profiler</a></li>
 {% endblock %}
 
 {% block content %}
-    <form action="{% url profiling_yappi_manage %}" method="POST">{% csrf_token %}
+    <form action="{% url 'profiling_yappi_manage' %}" method="POST">{% csrf_token %}
         <div class="clearfix">
             <div class="input">
                 <h4>{% if status %}Status: {{ status }}{% endif %}</h4>
@@ -18,7 +18,7 @@
         </div>
     </form>
 
-    <form action="{% url profiling_yappi_stats %}" method="GET">
+    <form action="{% url 'profiling_yappi_stats' %}" method="GET">
         {{ form.sort_type }}
         {{ form.sort_order }}
         <div class="clearfix">
