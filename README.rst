@@ -16,7 +16,7 @@ Requirements
 
 Dashboard remplates are based on `Bootstrap <http://twitter.github.com/bootstrap/>`_ toolkit.
 
-django-profiling-dashboard requires django >= 1.3 and python >= 2.6.
+django-profiling-dashboard requires django >= 1.5 and python >= 2.6.
 
 Installation
 ============
