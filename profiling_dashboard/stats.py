@@ -18,7 +18,7 @@ def _get_all_yappi_stats():
     yappi.enum_stats(handle)
     return res
 
-def get_full_yappi_stats(sorttype=yappi.SORTTYPE_NCALL, sortorder=yappi.SORTORDER_DESCENDING, limit=yappi.SHOW_ALL):
+def get_full_yappi_stats(sorttype=yappi.SORT_TYPES_FUNCSTATS['ncall'], sortorder=yappi.SORT_ORDERS['descending'], limit=None):
     """
     Like yappi.get_stats, but returns a list of namedtuples with the full information for function profiling data.
     """
@@ -26,7 +26,7 @@ def get_full_yappi_stats(sorttype=yappi.SORTTYPE_NCALL, sortorder=yappi.SORTORDE
     stats = _get_all_yappi_stats()
     stats.sort(key=lambda stat: stat[sorttype], reverse=sortorder)
 
-    if limit != yappi.SHOW_ALL:
+    if limit is not None:
         stats = stats[:limit]
 
     return stats

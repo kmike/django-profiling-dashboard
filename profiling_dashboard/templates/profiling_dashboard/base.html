@@ -1,7 +1,9 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'profiling_dashboard/css/bootstrap.min.css' %}">
     <style>
         body{
             padding-top: 40px;
@@ -19,9 +21,9 @@
                     <div class="container">
                         <h3><a href="#">Django Profiling Dashboard {% if pid %}(pid: {{ pid }}{% if tid %}, tid: {{ tid }}{% endif %}){% endif %}</a></h3>
                         <ul class="nav">
-                            {% block nav-cpu %}<li><a href="{% url profiling_yappi_stats %}">CPU profiler</a></li>{% endblock %}
-                            {% block nav-memory %}<li><a href="{% url profiling_memory_usage %}">Python memory profiler</a></li>{% endblock %}
-                            {% block nav-top %}<li><a href="{% url profiling_web_top %}">top</a></li>{% endblock %}
+                            {% block nav-cpu %}<li><a href="{% url 'profiling_yappi_stats' %}">CPU profiler</a></li>{% endblock %}
+                            {% block nav-memory %}<li><a href="{% url 'profiling_memory_usage' %}">Python memory profiler</a></li>{% endblock %}
+                            {% block nav-top %}<li><a href="{% url 'profiling_web_top' %}">top</a></li>{% endblock %}
                         </ul>
                     </div>
                 </div><!-- /topbar-inner -->
