@@ -1,10 +1,5 @@
 #!/usr/bin/env python
-from distutils.core import setup
-
-for cmd in ('egg_info', 'develop'):
-    import sys
-    if cmd in sys.argv:
-        from setuptools import setup
+from setuptools import setup
 
 version='0.1'
 
@@ -16,11 +11,10 @@ setup(
 
     packages=['profiling_dashboard'],
     package_data={
-        'profiling_dashboard': ['templates/profiling_dashboard/*.html', 'static/*.css']
+        'profiling_dashboard': ['templates/profiling_dashboard/*.html', 'static/profiling_dashboard/css/*.css']
     },
 
     url='https://github.com/kmike/django-profiling-dashboard',
-    download_url = 'https://github.com/kmike/django-profiling-dashboard/zipball/master',
     license = 'MIT license',
     description = """ Django profiling dashboard for debugging CPU, memory and other resources usage in live servers """,
 
