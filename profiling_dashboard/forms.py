@@ -15,7 +15,7 @@ class YappiManageForm(forms.Form):
         ('reset', 'reset'),
     )
 
-    action = forms.ChoiceField(ACTIONS)
+    action = forms.ChoiceField(choices=ACTIONS)
 
     def do_action(self):
         action = self.cleaned_data['action']
