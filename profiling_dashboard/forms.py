@@ -94,8 +94,8 @@ class TopFilterForm(forms.Form):
         if self.cleaned_data['only_ready']:
             processes = filter(lambda proc: proc._READY, processes)
 
-        processes.sort(key = lambda proc: getattr(proc, sort_index, None), reverse=True)
+        processes = sorted(processes, key = lambda proc: getattr(proc, sort_index, None), reverse=True)
         if limit:
-            processes = processes[:limit]
+            processes = list(processes)[:limit]
 
         return processes

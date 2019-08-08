@@ -60,12 +60,14 @@ def proc_annotate_with_short_info(p):
     with _ignore_AccessDenied():
         p.PID = p.pid
         p.USERNAME = p.username
-        p.CMDLINE = ' '.join(p.cmdline)
+        p.CMDLINE = ' '.join(p.cmdline())
         p.NAME = p.name
-        p.RSS, p.VMS = p.get_memory_info()
-        p.MEMPERCENT = p.get_memory_percent()
-        p.CPUPERCENT = p.get_cpu_percent(interval=0)
-        p.CPU_USER, p.CPU_SYSTEM = p.get_cpu_times()
+        p.RSS = p.memory_info().rss
+        p.VMS = p.memory_info().vms
+        p.MEMPERCENT = p.memory_percent()
+        p.CPUPERCENT = p.cpu_percent(interval=0)
+        p.CPU_USER = p.cpu_times().user
+        p.CPU_SYSTEM = p.cpu_times().system
         p._READY = True
     return p
 
@@ -73,30 +75,31 @@ def proc_annotate_with_full_info(p):
 
     with _ignore_AccessDenied():
         p.CREATE_TIMESTAMP = p.create_time
-        p.CREATE_TIME = datetime.datetime.fromtimestamp(p.CREATE_TIMESTAMP)
+        p.CREATE_TIME = datetime.datetime.fromtimestamp(p.CREATE_TIMESTAMP())
         p.NOW = datetime.datetime.now()
 
     with _ignore_AccessDenied():
-        p.CPUPERCENT = p.get_cpu_percent(interval=1)
+        p.CPUPERCENT = p.cpu_percent(interval=1)
 
     with _ignore_AccessDenied():
-        p.IO_COUNTERS = p.get_io_counters()
+        p.IO_COUNTERS = p.io_counters()
 
     with _ignore_AccessDenied():
-        p.THREADS = p.get_threads()
+        p.THREADS = p.threads()
 
     with _ignore_AccessDenied():
-        p.OPEN_FILES = p.get_open_files()
+        p.OPEN_FILES = p.open_files()
 
     with _ignore_AccessDenied():
-        p.CONNECTIONS = p.get_connections()
+        p.CONNECTIONS = p.connections()
 
 def get_top_info():
-    processes = psutil.get_process_list()
+    processes_iter = psutil.process_iter()
+    processes = []
 
-    for p in processes:
+    for p in processes_iter:
         try:
-            proc_annotate_with_short_info(p)
+            processes.append(proc_annotate_with_short_info(p))
         except psutil.NoSuchProcess:
             processes.remove(p)
 
